@@ -1,0 +1,164 @@
+logging:
+  file:
+    name: ${user.home}/log_file/bi_logs
+  level:
+    com:
+      zaxxer:
+        hikari: info
+    org:
+      ehcache: trace
+      hibernate: info
+      quartz: DEBUG
+      springframework:
+        amqp: info
+        cache: TRACE
+        jdbc:
+          core: trace
+        scheduling:
+          quartz: DEBUG
+        web:
+          socket: TRACE
+    root: debug
+db:
+  ip: localhost
+  password: '#xtenso@123P'
+  port: 3306
+  schema:
+    suffix: ''
+  username: root
+spring:
+  data:
+    redis:
+      host: localhost
+      password: ''
+      port: 6379
+      username: ''
+  datasource:
+    crm:
+      hikari:
+        jdbc-url: jdbc:mysql://${db.ip}:${db.port}/extenso_bi_crm${db.schema.suffix}?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&cachePrepStmts=true&useServerPrepStmts=true&rewriteBatchedStatements=true&profileSQL=true&connectionAttributes=program_name:ExtensoBICrm
+        password: ${db.password}
+        username: ${db.username}
+    customer360:
+      hikari:
+        jdbc-url: jdbc:mysql://${db.ip}:${db.port}/extenso_bi_customer360${db.schema.suffix}?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&cachePrepStmts=true&useServerPrepStmts=true&rewriteBatchedStatements=true&profileSQL=true&connectionAttributes=program_name:ExtensoBIF1dis
+        password: ${db.password}
+        username: ${db.username}
+    dashboard:
+      hikari:
+        jdbc-url: jdbc:mysql://${db.ip}:${db.port}/extenso_bi${db.schema.suffix}?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&connectionAttributes=program_name:ExtensoBI
+        password: ${db.password}
+        username: ${db.username}
+    f1dis:
+      hikari:
+        jdbc-url: jdbc:mysql://${db.ip}:${db.port}/extenso_bi_pdf${db.schema.suffix}?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&cachePrepStmts=true&useServerPrepStmts=true&rewriteBatchedStatements=true&profileSQL=true&connectionAttributes=program_name:ExtensoBIF1dis
+        password: ${db.password}
+        username: ${db.username}
+    fonepay:
+      hikari:
+        jdbc-url: jdbc:mysql://${db.ip}:${db.port}/extenso_bi_fonepay?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&connectionAttributes=program_name:ExtensoBIFonepay
+        password: ${db.password}
+        username: ${db.username}
+    hikari:
+      jdbc-url: jdbc:mysql://${db.ip}:${db.port}/masterdb${db.schema.suffix}?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&connectionAttributes=program_name:ExtensoBICore
+      password: ${db.password}
+      username: ${db.username}
+    overview:
+      hikari:
+        jdbc-url: jdbc:mysql://${db.ip}:${db.port}/extenso_bi_overview${db.schema.suffix}?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&connectionAttributes=program_name:ExtensoBIOverview
+        password: ${db.password}
+        username: ${db.username}
+    report:
+      hikari:
+        jdbc-url: jdbc:mysql://${db.ip}:${db.port}/extenso_bi_report${db.schema.suffix}?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&connectionAttributes=program_name:ExtensoBIReport
+        password: ${db.password}
+        username: ${db.username}
+    sns:
+      hikari:
+        jdbc-url: jdbc:mysql://${db.ip}:${db.port}/SNS_CONFIG_MASTER?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&cachePrepStmts=true&useServerPrepStmts=true&rewriteBatchedStatements=true&profileSQL=true&connectionAttributes=program_name:ExtensoBISnsConfigMaster
+        password: ${db.password}
+        username: ${db.username}
+    switch:
+      hikari:
+        jdbc-url: jdbc:mysql://${db.ip}:${db.port}/extenso_bi_switch${db.schema.suffix}?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&connectionAttributes=program_name:ExtensoBISwitch
+        password: ${db.password}
+        username: ${db.username}
+  devtools:
+    restart:
+      enabled: false
+  jpa:
+    properties:
+      hibernate:
+        generate_statistics: true
+  rabbitmq:
+    host: localhost
+    password: guest
+    port: 5672
+    username: guest
+extenso-bi-fonepay:
+  source-name: extenso_bi_fonepay
+channel:
+  attachment-dir: attachments
+crm:
+  channel:
+    attachment-path: ${user.home}/${channel.attachment-dir}
+  public-redirect-url: http://localhost:3000
+  push:
+    enable:
+      bfi: 0
+  source-name: extenso_bi_crm${db.schema.suffix}
+  template:
+    attachment-path: ${user.home}/${template.attachment-dir}
+report:
+  source-name: extenso_bi_report${db.schema.suffix}
+server:
+  baseurl: https://${server.domain}
+  domain: localhost:8443
+  error:
+    include-stacktrace: always
+cas:
+  app:
+    service:
+      url: http://localhost:8080/xbi/login/cas
+      validate:
+        url: https://${server.domain}/cas
+  disable: true
+  login:
+    url: ${cas.url.prefix}/login
+  logout:
+    url: ${cas.url.prefix}/logout?service=http://localhost:8080/xbi/
+  url:
+    prefix: ${server.baseurl}/cas
+template:
+  attachment-dir: marketAssetsAttachment
+encryption:
+  algorithm:
+    field-encoded: true
+    has-iv: false
+    iv: iv
+    iv-encoded: false
+    name: AES
+    operation-mode: ECB
+  enable: true
+  secret:
+    encoded: true
+    hash-function: null
+    key: YWVzZW5jcnlwdGlvbmtleQ==
+    key-length: 128
+    length-with-hash: 0
+    message-digest: false
+web:
+  allowed:
+    origin: http://localhost:4200
+  redirection:
+    url: http://localhost:4200/bi
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.value}
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: "http://localhost:8761/eureka"
