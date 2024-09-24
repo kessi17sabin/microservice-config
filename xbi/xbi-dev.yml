@@ -29,7 +29,7 @@ db:
 spring:
   data:
     redis:
-      host: localhost
+      host: localhosts
       password: ''
       port: 6379
       username: ''
